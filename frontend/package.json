@@ -41,7 +41,7 @@
     "vue": "^3.2.30",
     "vue-advanced-cropper": "^2.8.0",
     "vue-form-wizard": "^0.8.4",
-    "vue-next-select": "^2.10.2",
+    "vue-next-select": "^2.10.3",
     "vue-router": "^4.0.0-0",
     "vue-star-rating": "^2.1.0",
     "vue-sweetalert2": "^5.0.2",

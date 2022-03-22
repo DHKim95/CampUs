@@ -250,93 +250,96 @@ export default {
       this.partyData.mateCampend = mateCampend;
     },
 
-    test() {
+    async test() { 
       
-      console.log(this.partyData)
-      console.log(2)
-      axios({
-        method: "post",
-        url : `${SERVER_URL}/mate`,
-        data : this.partyData,
-      })
-      .then((res) => {
-          // 이미지삽입
-          console.log(res.data.dto.mateNo);
-          this.mateChatNm = res.data.dto.mateNo;
-          console.log(this.mateImageUrl);
-          if (this.mateImageUrl) {
-            axios({
-              method: "post",
-              headers: { "Content-Type": "multipart/form-data" },
-              url: `${SERVER_URL}/mate/${res.data.dto.mateNo}`,
-
-              data: this.mateImageUrl,
-            })
-              .then((res) => {
-                console.log(res);
-                const viewFunc = (data) => {
-                  // console.log(data)
-                    this.$store.dispatch("viewMate", data);
-              
-                  };
-                  axios({
-                    methods: "get",
-                    url: `${SERVER_URL}/mate`,
-                  })
-                  .then((res) => {
-                    // console.log(res.data.list)
-                    viewFunc(res.data.list);
-              
-                  })
-
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+      const response = await axios.post(`${SERVER_URL}/mate`,this.partyData)
+      if (this.mateImageUrl) { 
+        const res2 = await axios.post(`${SERVER_URL}/mate/${response.data.dto.mateNo}`,this.mateImageUrl)
+        console.log(res2)
+        this.$store.dispatch("viewMate", this.partyData);
           }
+        this.$router.push({ name: "Mateparty" })
 
 
-          
-
-          setTimeout(() => {
-            this.$router.push({ name: "Mateparty" });
-          }, 3000);
-          
-
-          // 채팅방
-          const chatData = {
-            title: this.partyData.mateTitle,
-            masterId: this.$store.state.myNum,
-            id: this.mateChatNm,
-          };
-          console.log(chatData);
-        
-          })
-    
-        .catch(err => {
-          console.log(err)
-        })
-        
-        setTimeout(()=> {this.$router.push({name:'Mateparty'})},3000)
-
-
-        
-        
+      }
+      
    
 
-
+    }
+    // test() {
       
+    //   console.log(this.partyData)
+    //   console.log(2)
+    //   axios({
+    //     method: "post",
+    //     url : `${SERVER_URL}/mate`,
+    //     data : this.partyData,
+    //   })
+    //   .then((res) => {
+    //       // 이미지삽입
+    //       console.log(res.data.dto.mateNo);
+    //       this.mateChatNm = res.data.dto.mateNo;
+    //       console.log(this.mateImageUrl);
+    //       if (this.mateImageUrl) {
+    //         axios({
+    //           method: "post",
+    //           headers: { "Content-Type": "multipart/form-data" },
+    //           url: `${SERVER_URL}/mate/${res.data.dto.mateNo}`,
 
-    
-      
- 
-  
+    //           data: this.mateImageUrl,
+    //         })
+    //           .then((res) => {
+    //             console.log(res);
+    //             const viewFunc = (data) => {
+    //               // console.log(data)
+    //                 this.$store.dispatch("viewMate", data);
+              
+    //               };
+    //               axios({
+    //                 methods: "get",
+    //                 url: `${SERVER_URL}/mate`,
+    //               })
+    //               .then((res) => {
+    //                 // console.log(res.data.list)
+    //                 viewFunc(res.data.list);
+              
+    //               })
+
+    //               .catch((err) => {
+    //                 console.log(err);
+    //               });
+    //           })
+    //           .catch((err) => {
+    //             console.log(err);
+    //           });
+    //       }
+
+
+          
+
+    //       setTimeout(() => {
+    //         this.$router.push({ name: "Mateparty" });
+    //       }, 3000);
+          
+
+    //       // 채팅방
+    //       const chatData = {
+    //         title: this.partyData.mateTitle,
+    //         masterId: this.$store.state.myNum,
+    //         id: this.mateChatNm,
+    //       };
+    //       console.log(chatData);
         
-    },
-  },
+    //       })
+    
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+        
+    //     setTimeout(()=> {this.$router.push({name:'Mateparty'})},3000)
+   
+    // },
+ 
 };
 </script>
 
